@@ -45,6 +45,6 @@ Refer [example](examples/tmux.conf).
 ### [tpm](https://github.com/tmux-plugins/tpm)
 
 ```tmux
-set -g @plugin Freed-Wu/tmux-digit
+set -g @plugin jduspmc/tmux-digit
 run ~/.config/tmux/plugins/tpm/tpm
 ```
