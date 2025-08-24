@@ -8,9 +8,14 @@ interpolation=(
 digits=(⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳)
 
 get_command() {
-	for i in {0..20}; do
-		echo -n "#{?#{==:#$1,$i},${digits[i]},}"
-	done
+  local tok="$1"            # S or I
+  local ph="__FALL__"
+  local expr="$ph"
+  for i in {0..20}; do
+    expr="#{?#{==:#$tok,$i},${digits[i]},$expr}"
+  done
+  expr="${expr//$ph/#$tok}" # fallback: original token
+  printf '%s' "$expr"
 }
 
 commands=(
