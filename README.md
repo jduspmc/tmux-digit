@@ -46,5 +46,4 @@ Refer [example](examples/tmux.conf).
 
 ```tmux
 set -g @plugin jduspmc/tmux-digit
-run ~/.config/tmux/plugins/tpm/tpm
 ```
