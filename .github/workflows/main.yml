@@ -12,7 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: mig4/setup-bats@v1
       # https://github.com/mig4/setup-bats/issues/67
       - uses: brokenpip3/setup-bats-libs@0.1.0
@@ -31,6 +31,6 @@ jobs:
       - name: Test
         run: |
           TMPDIR=/tmp bundle exec bashcov -- bats -r .
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           files: coverage/codecov-result.json
