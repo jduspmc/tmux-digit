@@ -1,28 +1,27 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2155
+# shellcheck disable=SC2155,SC2034
+digits_circle=(⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳)
+digits_circle_inv=(0 󰲠 󰲢 󰲤 󰲦 󰲨 󰲪 󰲬 󰲮 󰲰)
+digits_layer=(󰼎 󰼏 󰼐 󰼑 󰼒 󰼓 󰼔 󰼕 󰼖 󰼗)
+digits_layer_inv=(󰎢 󰎥 󰎨 󰎫 󰎲 󰎯 󰎴 󰎷 󰎺 󰎽)
+digits_square=(󰎡 󰎤 󰎧 󰎪 󰎭 󰎱 󰎳 󰎶 󰎹 󰎼)
+digits_square_inv=(󰎣 󰎦 󰎩 󰎬 󰎮 󰎰 󰎵 󰎸 󰎻 󰎾)
+digits_number=( 󰬺 󰬻 󰬼 󰬽 󰬾 󰬿 󰭀 󰭁 󰭂)
+
 interpolation=(
 	"#S"
 	"#I"
 )
 
-#digits=(⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳)
-#digits=(0 󰲠 󰲢 󰲤 󰲦 󰲨 󰲪 󰲬 󰲮 󰲰)
-#digits=(󰼎 󰼏 󰼐 󰼑 󰼒 󰼓 󰼔 󰼕 󰼖 󰼗)
-digits=(󰎢 󰎥 󰎨 󰎫 󰎲 󰎯 󰎴 󰎷 󰎺 󰎽)
-#digits=(󰎡 󰎤 󰎧 󰎪 󰎭 󰎱 󰎳 󰎶 󰎹 󰎼)
-#digits=(󰎣 󰎦 󰎩 󰎬 󰎮 󰎰 󰎵 󰎸 󰎻 󰎾)
-#digits=( 󰬺 󰬻 󰬼 󰬽 󰬾 󰬿 󰭀 󰭁 󰭂)
-
 get_command() {
-	for i in {0..20}; do
-		echo -n "#{?#{==:#$1,$i},${digits[i]},}"
+	local name="$1"
+	local -i i=0
+	shift
+	for digit; do
+		echo -n "#{?#{==:#$name,$i},$digit,}"
+		i=$((i + 1))
 	done
 }
-
-commands=(
-	"$(get_command S)"
-	"$(get_command I)"
-)
 
 get_tmux_option() {
 	local option=$1
@@ -42,6 +41,12 @@ set_tmux_option() {
 }
 
 do_interpolation() {
+	local style="digits_$(get_tmux_option @digit-style circle)"
+	eval 'local digits=("${'"$style"'[@]}")'
+	local commands=(
+		"$(get_command S "${digits[@]}")"
+		"$(get_command I "${digits[@]}")"
+	)
 	local all_interpolated="$1"
 	for ((i = 0; i < ${#commands[@]}; i++)); do
 		all_interpolated=${all_interpolated//${interpolation[$i]}/${commands[$i]}}

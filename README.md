@@ -38,6 +38,12 @@
 
 ## Configure
 
+```tmux
+set -g @digit-style square
+```
+
+See [`digit.tmux`](./digit.tmux) to know legal values.
+
 Refer [example](examples/tmux.conf).
 
 ## Install
