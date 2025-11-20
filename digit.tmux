@@ -2,6 +2,8 @@
 # shellcheck disable=SC2155,SC2034
 digits_circle=(⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳)
 digits_circle_inv=(0 󰲠 󰲢 󰲤 󰲦 󰲨 󰲪 󰲬 󰲮 󰲰)
+digits_circle_serif=("🄋 " "➀ " "➁ " "➂ " "➃ " "➄ " "➅ " "➆ " "➇ " "➈ " "➉ ")
+digits_circle_serif_inv=("🄌 " "➊ " "➋ " "➌ " "➍ " "➎ " "➏ " "➐ " "➑ " "➒ " "➓ ")
 digits_square=(󰎣 󰎦 󰎩 󰎬 󰎮 󰎰 󰎵 󰎸 󰎻 󰎾)
 digits_square_inv=(󰎡 󰎤 󰎧 󰎪 󰎭 󰎱 󰎳 󰎶 󰎹 󰎼)
 digits_layer=(󰎢 󰎥 󰎨 󰎫 󰎲 󰎯 󰎴 󰎷 󰎺 󰎽)
@@ -12,15 +14,19 @@ interpolation=(
 	"#S"
 	"#I"
 )
-
 get_command() {
-	local name="$1"
-	local -i i=0
-	shift
-	for digit; do
-		echo -n "#{?#{==:#$name,$i},$digit,}"
-		i=$((i + 1))
-	done
+  local name="$1"
+  shift
+
+  local expr="#$name"
+
+  local i=0
+  for digit; do
+    expr="#{?#{==:#$name,$i},$digit,$expr}"
+    i=$((i + 1))
+  done
+
+  printf '%s' "$expr"
 }
 
 get_tmux_option() {
