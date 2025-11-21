@@ -15,18 +15,18 @@ interpolation=(
 	"#I"
 )
 get_command() {
-  local name="$1"
-  shift
+	local name="$1"
+	shift
 
-  local expr="#$name"
+	local expr="#$name"
 
-  local i=0
-  for digit; do
-    expr="#{?#{==:#$name,$i},$digit,$expr}"
-    i=$((i + 1))
-  done
+	local i=0
+	for digit; do
+		expr="#{?#{==:#$name,$i},$digit,$expr}"
+		i=$((i + 1))
+	done
 
-  printf '%s' "$expr"
+	printf '%s' "$expr"
 }
 
 get_tmux_option() {
